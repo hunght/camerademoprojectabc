@@ -3,6 +3,7 @@ package com.camerademoprojectabc;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.horcrux.svg.SvgPackage;
 import com.reactlibrary.RNCustomCropPackage;
 import com.rnfs.RNFSPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImageResizerPackage(),
             new SvgPackage(),
             new RNCustomCropPackage(),
             new RNFSPackage(),

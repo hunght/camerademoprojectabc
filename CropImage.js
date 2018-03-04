@@ -9,6 +9,7 @@ import {
   Button
 } from 'react-native';
 import Svg, { Polygon, Defs, ClipPath } from 'react-native-svg';
+import ImageResizer from 'react-native-image-resizer';
 
 const AnimatedPolygon = Animated.createAnimatedComponent(Polygon);
 
@@ -114,10 +115,28 @@ class CustomCrop extends Component {
         this.state.bottomRight
       )
     };
-    this.props.navigation.navigate('SVGView', {
-      ...this.props.navigation.state.params,
-      coordinates
-    });
+
+    ImageResizer.createResizedImage(
+      this.props.navigation.state.params.path,
+      Dimensions.get('window').width,
+      Dimensions.get('window').height,
+      'PNG',
+      100,
+      0
+    )
+      .then(({ uri }) => {
+        this.props.navigation.navigate('SVGView', {
+          ...this.props.navigation.state.params,
+          coordinates,
+          pathRotate: uri
+        });
+        console.log('createResizedImage =', uri);
+      })
+      .catch(err => {
+        console.log(err);
+
+        return Alert.alert('Unable to resize the photo', 'Please try again!');
+      });
   }
 
   updateOverlayString() {
@@ -160,7 +179,7 @@ class CustomCrop extends Component {
           <Image
             style={[s(this.props).image, { height: this.state.viewHeight }]}
             resizeMode="contain"
-            source={{ uri: this.props.navigation.state.params.path }}
+            source={{ uri: this.props.navigation.state.params.base64 }}
           />
           <Svg
             height={this.state.viewHeight}

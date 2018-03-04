@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
-
+import RNFS from 'react-native-fs';
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -63,7 +63,7 @@ export default class Example extends React.Component {
     this.state = {
       camera: {
         aspect: Camera.constants.Aspect.fill,
-        captureTarget: Camera.constants.CaptureTarget.temp,
+        captureTarget: Camera.constants.CaptureTarget.disk,
         type: Camera.constants.Type.back,
         orientation: Camera.constants.Orientation.auto,
         flashMode: Camera.constants.FlashMode.auto
@@ -77,8 +77,14 @@ export default class Example extends React.Component {
       this.camera
         .capture()
         .then(data => {
-          this.props.navigation.navigate('CropImage', data);
-          console.log(data);
+          RNFS.readFile(data.path, 'base64') //substring(7) -> to remove the file://
+            .then(res => {
+              this.props.navigation.navigate('CropImage', {
+                ...data,
+                base64: `data:image/gif;base64,${res}`
+              });
+            })
+            .catch(err => console.error(err));
         })
         .catch(err => console.error(err));
     }

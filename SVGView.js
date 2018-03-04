@@ -47,8 +47,9 @@ const SVGView = ({ navigation }) => (
         width="100%"
         height="100%"
         preserveAspectRatio="xMidYMid slice"
-        href={{ uri: navigation.state.params.path }}
+        href={{ uri: navigation.state.params.pathRotate }}
         clipPath="url(#hexagon)"
+        // transform={{ rotation: 180 }}
       />
     </Svg>
   </View>
