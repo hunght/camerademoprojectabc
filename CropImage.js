@@ -114,8 +114,11 @@ class CustomCrop extends Component {
         this.state.bottomRight
       )
     };
-    this.props.navigation.navigate('SVGView');
-    console.log(coordinates);
+    console.log('this.polygon  ==', this.polygon);
+    this.props.navigation.navigate('SVGView', {
+      ...this.props.navigation.state.params,
+      coordinates
+    });
   }
 
   updateOverlayString() {
