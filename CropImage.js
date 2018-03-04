@@ -114,7 +114,6 @@ class CustomCrop extends Component {
         this.state.bottomRight
       )
     };
-    console.log('this.polygon  ==', this.polygon);
     this.props.navigation.navigate('SVGView', {
       ...this.props.navigation.state.params,
       coordinates
@@ -173,7 +172,6 @@ class CustomCrop extends Component {
             }}
           >
             <AnimatedPolygon
-              ref={ref => (this.polygon = ref)}
               fill={this.props.overlayColor || 'blue'}
               fillOpacity={this.props.overlayOpacity || 0.5}
               stroke={this.props.overlayStrokeColor || 'blue'}
